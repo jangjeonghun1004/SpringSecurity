@@ -10,6 +10,9 @@
 <body>
 	this is my index.jsp
 	<br>
-	<form action="<c:url value='/logout' />" method="post"><button>Logout</button></form>
+	<form action="<c:url value='/logout' />" method="post">
+	    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	    <button>Logout</button>
+	</form>
 </body>
 </html>
