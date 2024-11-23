@@ -11,6 +11,19 @@
     인가(Authorization)
     인증을 마친 후 유저에게 부여되는 권한입니다.
 
+# 사전 정보
+    
+    1. SecurityFilterChain의 formLogin()과 logout()은 POST 방식으로만 동작한다.
+    2. formLogin()을 "/login"으로 설정한 후 POST를 호출하면 UserDetailsService가 자동으로 호출이 되면
+        UserDetailsService에 의해 사용자 아이디를 기준으로 비밀 번호를 자동으로 검증한다.(자동으로 인증 절차를 처리)
+    3. logout()을 "/logout"으로 설정한 후 POST 방식으로 호출해만 로직이 실행된다.
+    4. Spring Security는 CSRF가 기본 활성화 상태이다. 그러므로 일반 form 전송시 CSRF 토큰 설정이 필요하다.
+    5. UserDetailsService의 "username" 변수명을 변경하면 않된다.
+       우리는 일반적으로 아이디를 체크하는대 변수명은 "username"이다. 젠장...
+
+    위와 같은 제약 사항들이 프로그램의 모호성을 야기하고 이러한 모호성이 진입장벽을 유발하는 것 같다.
+    누군가가 나에게 이러한 현상에 대해 나의 의견을 물어 본다면 나의 의견은 긍정적이지는 않을 것 같다.
+
 # Spring Security
 
     Spring Security는 모든 HTTP 요청에 서블릿 필터를 적용해 보안을 처리합니다.
@@ -74,12 +87,16 @@
         # SecurityFilterChain 빈(서블릿 필터)
         # AuthenticationManager 빈(인증 관리)
         # PasswordEncoder 빈(암호화)
+        # HttpFirewall 빈("//" 오류 해결)
 
     2단계: UserDetailsService 구현
         CustomUserDetailsService.java 파일을 참고하세요.
 
     3단계: 로그인 페이지 생성
         login.jsp 파일을 참고하세요.
+
+    4단계: 로그 아웃
+        로그 아웃을 별도의 페이지가 필요 없고 POST 방식으로 "/logout"을 호출하면 된다.
 
     # 추가 정보
         login.jsp에서 POST 전송시 Spring Security가 사용자가 입력한 아이디, 비밀번호를 비교합니다.
